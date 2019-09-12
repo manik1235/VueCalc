@@ -1,60 +1,9 @@
 <template>
 <div class="calc">
   <table>
-    <tr>
-      <td>
-        <CalcButton value="7"/>
-      </td>
-      <td>
-        <CalcButton value="8"/>
-      </td>
-      <td>
-        <CalcButton value="9"/>
-      </td>
-      <td>
-        <CalcButton value="+"/>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <CalcButton value="4"/>
-      </td>
-      <td>
-        <CalcButton value="5"/>
-      </td>
-      <td>
-        <CalcButton value="6"/>
-      </td>
-      <td>
-        <CalcButton value="-"/>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <CalcButton value="1"/>
-      </td>
-      <td>
-        <CalcButton value="2"/>
-      </td>
-      <td>
-        <CalcButton value="3"/>
-      </td>
-      <td>
-        <CalcButton value="*"/>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <CalcButton value="C"/>
-      </td>
-      <td>
-        <CalcButton value="0"/>
-      </td>
-      <td>
-        <CalcButton value="."/>
-      </td>
-      <td>
-        <CalcButton value="/"/>
+    <tr v-for="row in calculatorArray">
+      <td v-for="item in row">
+        <CalcButton @buttonClicked="buttonClicked" :value="item"/>
       </td>
     </tr>
   </table>
@@ -66,8 +15,21 @@ import CalcButton from './CalcButton.vue'
 
 export default {
   name: 'Calc',
+  data() {
+    return { calculatorArray: [
+      ['7', '8', '9', '+'],
+      ['4', '5', '6', '-'],
+      ['1', '2', '3', '*'],
+      ['C', '0', '.', '/']
+    ]}
+  },
   components: {
     CalcButton
+  },
+  methods: {
+    buttonClicked(value) {
+      console.log(value)
+    }
   }
 }
 </script>
