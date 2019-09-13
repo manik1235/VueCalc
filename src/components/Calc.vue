@@ -22,12 +22,15 @@ import Display from './Display.vue'
 export default {
   name: 'Calc',
   data() {
-    return { calculatorArray: [
-      ['7', '8', '9', '+'],
-      ['4', '5', '6', '-'],
-      ['1', '2', '3', '*'],
-      ['C', '0', '.', '/']
-    ], displayValue: '0' }
+    return { calculatorArray:
+      [['7', '8', '9', '+'],
+       ['4', '5', '6', '-'],
+       ['1', '2', '3', '*'],
+       ['C', '0', '.', '/']],
+      displayValue: '0',
+      operators: ['+', '-', '*', '/', 'C'],
+      register: []
+    }
   },
   components: {
     CalcButton,
@@ -37,6 +40,15 @@ export default {
     nextValue(value) {
       console.log("Calc.vue#nextValue => " + value)
       this.displayValue = value
+      var isOperator = !!this.operators.find(function (operator) { return operator === value } )
+      console.log("isOperator = '" + isOperator + "'")
+
+      if (isOperator) {
+        if (value === 'C') {
+          this.displayValue = '0'
+          this.register = []
+        }
+      }
     }
   }
 }
@@ -46,6 +58,7 @@ export default {
 .text-center {
   margin-left: auto;
   margin-right: auto;
+  max-width: 300px;
   width: 50%;
 }
 </style>

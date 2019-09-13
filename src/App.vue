@@ -31,6 +31,8 @@ export default {
   border: 3px solid green;
   margin-left: auto;
   margin-right: auto;
+  max-width: 300px;
+  padding: 30px 30px;
   width: 50%;
 }
 </style>
