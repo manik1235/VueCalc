@@ -29,7 +29,9 @@ export default {
        ['C', '0', '.', '/']],
       displayValue: '0',
       operators: ['+', '-', '*', '/', 'C'],
-      register: []
+      register: '',
+      registerOperator: '+',
+      registerValue: 0
     }
   },
   components: {
@@ -39,14 +41,31 @@ export default {
   methods: {
     nextValue(value) {
       console.log("Calc.vue#nextValue => " + value)
-      this.displayValue = value
+      // this.displayValue = value
       var isOperator = !!this.operators.find(function (operator) { return operator === value } )
       console.log("isOperator = '" + isOperator + "'")
 
+      if (value === 'C') {
+        this.displayValue = '0'
+        this.registerValue = 0
+        this.registerOperator = '+'
+      }
+
       if (isOperator) {
-        if (value === 'C') {
-          this.displayValue = '0'
-          this.register = []
+        if (this.registerOperator === '+') {
+          this.displayValue = (parseFloat(this.displayValue) + this.registerValue).toString()
+        }
+        if (value === '+') {
+          this.registerValue = parseFloat(this.displayValue)
+          this.registerOperator = value
+        }
+      } else {
+        if (this.registerOperator === '') {
+          // Numbers are pushed directly into the register & display
+          this.displayValue += value
+        } else {
+          // Clear the display if an operator was just pressed prior to this value
+          this.displayValue = value
         }
       }
     }
