@@ -1,23 +1,18 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
+<div id="app">
+  <div class="calculator">
     <Calc/>
-    <br>
-    <hr>
-    <br>
-    <HelloWorld msg="Welcome to Your Vue.js App (I come from `src/App.vue`)"/>
   </div>
+</div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 import Calc from './components/Calc.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld,
-    Calc,
+    Calc
   }
 }
 </script>
@@ -30,5 +25,12 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.calculator {
+  border: 3px solid green;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 </style>

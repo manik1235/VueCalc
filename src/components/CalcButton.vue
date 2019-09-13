@@ -12,7 +12,8 @@ export default {
   },
   methods: {
     clicked() {
-      this.$emit("buttonClicked", this.value)
+      console.log("CalcButton.vue#clicked.value == " + this.value)
+      this.$emit("nextValue", this.value)
     }
   }
 }

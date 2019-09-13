@@ -1,9 +1,14 @@
 <template>
 <div class="calc">
-  <table>
+  <table class="text-center">
+    <tr>
+      <td colspan=4>
+        <Display :displayValue="displayValue" />
+      </td>
+    </tr>
     <tr v-for="row in calculatorArray">
       <td v-for="item in row">
-        <CalcButton @buttonClicked="buttonClicked" :value="item"/>
+        <CalcButton @nextValue="nextValue" :value="item"/>
       </td>
     </tr>
   </table>
@@ -12,6 +17,7 @@
 
 <script>
 import CalcButton from './CalcButton.vue'
+import Display from './Display.vue'
 
 export default {
   name: 'Calc',
@@ -21,18 +27,25 @@ export default {
       ['4', '5', '6', '-'],
       ['1', '2', '3', '*'],
       ['C', '0', '.', '/']
-    ]}
+    ], displayValue: '0' }
   },
   components: {
-    CalcButton
+    CalcButton,
+    Display
   },
   methods: {
-    buttonClicked(value) {
-      console.log(value)
+    nextValue(value) {
+      console.log("Calc.vue#nextValue => " + value)
+      this.displayValue = value
     }
   }
 }
 </script>
 
 <style>
+.text-center {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
 </style>
