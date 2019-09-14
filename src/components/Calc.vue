@@ -31,7 +31,8 @@ export default {
       operators: ['+', '-', '*', '/', 'C'],
       register: '',
       registerOperator: '+',
-      registerValue: 0
+      registerValue: 0,
+      newValue: true
     }
   },
   components: {
@@ -40,10 +41,7 @@ export default {
   },
   methods: {
     nextValue(value) {
-      console.log("Calc.vue#nextValue => " + value)
-      // this.displayValue = value
       var isOperator = !!this.operators.find(function (operator) { return operator === value } )
-      console.log("isOperator = '" + isOperator + "'")
 
       if (value === 'C') {
         this.displayValue = '0'
@@ -53,19 +51,25 @@ export default {
 
       if (isOperator) {
         if (this.registerOperator === '+') {
-          this.displayValue = (parseFloat(this.displayValue) + this.registerValue).toString()
+          this.displayValue = (this.registerValue + parseFloat(this.displayValue)).toString()
+        } else if (this.registerOperator === '-') {
+          this.displayValue = (this.registerValue - parseFloat(this.displayValue)).toString()
+        } else if (this.registerOperator === '*') {
+          this.displayValue = (this.registerValue * parseFloat(this.displayValue)).toString()
+        } else if (this.registerOperator === '/') {
+          this.displayValue = (this.registerValue / parseFloat(this.displayValue)).toString()
         }
-        if (value === '+') {
-          this.registerValue = parseFloat(this.displayValue)
-          this.registerOperator = value
-        }
+        this.registerValue = parseFloat(this.displayValue)
+        this.registerOperator = value
+        this.newValue = true
       } else {
-        if (this.registerOperator === '') {
+        if (this.newValue) {
+          // Clear the display if an operator was just pressed prior to this value
+          this.newValue = false
+          this.displayValue = value
+        } else {
           // Numbers are pushed directly into the register & display
           this.displayValue += value
-        } else {
-          // Clear the display if an operator was just pressed prior to this value
-          this.displayValue = value
         }
       }
     }
