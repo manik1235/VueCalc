@@ -1,5 +1,10 @@
 # vue-calc
 
+## Clone
+```
+git clone git@github.com:manik1235/VueCalc.git
+```
+
 ## Project setup
 ```
 yarn install
