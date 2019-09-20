@@ -1,5 +1,5 @@
 <template>
-<div @click="clicked" class="CalcButton">
+<div class="calc-button" @click="clicked">
   {{ value }}
 </div>
 </template>
@@ -19,4 +19,10 @@ export default {
 </script>
 
 <style>
+.calc-button {
+  border: 1px solid grey;
+  border-radius: 3px;
+  margin: 1px;
+  padding: 2px;
+}
 </style>
