@@ -11,6 +11,7 @@
         <CalcButton
           @nextValue="nextValue"
           :value="item"
+          :isDepressed="isDepressed(item)"
           :isOperatorProp="isOperator(item)"/>
       </td>
     </tr>
@@ -43,8 +44,11 @@ export default {
     Display
   },
   methods: {
-    isOperator(value) {
-      return this.operators.includes(value)
+    isDepressed(item) {
+      return this.registerOperator === item
+    },
+    isOperator(item) {
+      return this.operators.includes(item)
     },
     nextValue(value) {
       var isOperator = !!this.operators.find(function (operator) { return operator === value } )
