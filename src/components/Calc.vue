@@ -1,14 +1,17 @@
 <template>
-<div class="calc">
-  <table class="text-center">
+<div class="calculator">
+  <table class="display-pad">
     <tr>
       <td colspan=4>
         <Display :displayValue="displayValue" />
       </td>
     </tr>
-    <tr v-for="row in calculatorArray">
-      <td v-for="item in row">
-        <CalcButton @nextValue="nextValue" :value="item"/>
+    <tr v-for="row in calculatorArray" :key="row.id">
+      <td v-for="item in row" :key="item.id">
+        <CalcButton
+          @nextValue="nextValue"
+          :value="item"
+          :isOperatorProp="isOperator(item)"/>
       </td>
     </tr>
   </table>
@@ -40,6 +43,9 @@ export default {
     Display
   },
   methods: {
+    isOperator(value) {
+      return this.operators.includes(value)
+    },
     nextValue(value) {
       var isOperator = !!this.operators.find(function (operator) { return operator === value } )
 
@@ -78,7 +84,17 @@ export default {
 </script>
 
 <style>
-.text-center {
+.calculator {
+  border: 3px solid silver;
+  border-radius: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 300px;
+  padding: 30px 30px;
+  width: 50%;
+}
+
+.display-pad {
   margin-left: auto;
   margin-right: auto;
   max-width: 300px;

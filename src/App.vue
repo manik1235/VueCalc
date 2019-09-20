@@ -1,6 +1,6 @@
 <template>
 <div id="app">
-  <div class="calculator">
+  <div class="calculator-app">
     <Calc/>
   </div>
 </div>
@@ -27,7 +27,7 @@ export default {
   margin-top: 60px;
 }
 
-.calculator {
+.calculator-app {
   border: 3px solid green;
   margin-left: auto;
   margin-right: auto;
