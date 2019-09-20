@@ -8,10 +8,10 @@
     </tr>
     <tr v-for="row in calculatorArray" :key="row.id">
       <td v-for="item in row" :key="item.id">
-        <CalcButton 
-          @nextValue="nextValue" 
+        <CalcButton
+          @nextValue="nextValue"
           :value="item"
-          :isOperatorProp="isOperator"/>
+          :isOperatorProp="isOperator(item)"/>
       </td>
     </tr>
   </table>
@@ -24,11 +24,6 @@ import Display from './Display.vue'
 
 export default {
   name: 'Calc',
-  computed: {
-    isOperator: function(value) {
-      return false
-    }
-  },
   data() {
     return { calculatorArray:
       [['7', '8', '9', '+'],
@@ -48,6 +43,9 @@ export default {
     Display
   },
   methods: {
+    isOperator(value) {
+      return this.operators.includes(value)
+    },
     nextValue(value) {
       var isOperator = !!this.operators.find(function (operator) { return operator === value } )
 
