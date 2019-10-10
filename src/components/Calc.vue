@@ -32,6 +32,7 @@ export default {
        ['1', '2', '3', '*'],
        ['C', '0', '.', '/']],
       displayValue: '0',
+      lastValue: '',
       operators: ['+', '-', '*', '/', 'C'],
       register: '',
       registerOperator: '+',
@@ -50,25 +51,29 @@ export default {
     isOperator(item) {
       return this.operators.includes(item)
     },
+    calculate(registerOperator, registerValue, displayValue) {
+      displayValue = parseFloat(displayValue)
+      if (registerOperator === '+') {
+        displayValue = registerValue + displayValue
+      } else if (registerOperator === '-') {
+        displayValue = registerValue - displayValue
+      } else if (registerOperator === '*') {
+        displayValue = registerValue * displayValue
+      } else if (registerOperator === '/') {
+        displayValue = registerValue / displayValue
+      }
+      return displayValue.toString()
+    },
     nextValue(value) {
-      var isOperator = !!this.operators.find(function (operator) { return operator === value } )
-
       if (value === 'C') {
         this.displayValue = '0'
         this.registerValue = 0
         this.registerOperator = '+'
+        this.lastValue = ''
       }
 
-      if (isOperator) {
-        if (this.registerOperator === '+') {
-          this.displayValue = (this.registerValue + parseFloat(this.displayValue)).toString()
-        } else if (this.registerOperator === '-') {
-          this.displayValue = (this.registerValue - parseFloat(this.displayValue)).toString()
-        } else if (this.registerOperator === '*') {
-          this.displayValue = (this.registerValue * parseFloat(this.displayValue)).toString()
-        } else if (this.registerOperator === '/') {
-          this.displayValue = (this.registerValue / parseFloat(this.displayValue)).toString()
-        }
+      if (this.isOperator(value)) {
+        this.displayValue = this.calculate(this.registerOperator, this.registerValue, this.displayValue)
         this.registerValue = parseFloat(this.displayValue)
         this.registerOperator = value
         this.newValue = true
