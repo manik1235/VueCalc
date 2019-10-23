@@ -34,7 +34,6 @@ export default {
       displayValue: '0',
       lastValue: '',
       operators: ['+', '-', '*', '/', 'C'],
-      register: '',
       registerOperator: '+',
       registerValue: 0
     }
@@ -63,26 +62,30 @@ export default {
       }
       return displayValue
     },
+    resetCalculator() {
+      this.displayValue = '0'
+      this.registerValue = 0
+      this.lastValue = this.registerOperator = '+'
+    },
     nextValue(value) {
       if (value === 'C') {
-        this.displayValue = '0'
-        this.registerValue = 0
-        this.registerOperator = '+'
-        this.lastValue = this.registerOperator
-        return
-      }
-
-      if (this.isOperator(value)) {
+        // Clear/reset the display
+        this.resetCalculator()
+      } else if (this.isOperator(value)) {
+        // An operator was pressed
         if (this.isOperator(this.lastValue)) {
+          // Change the operator because multiple operators were pressed in a row
           this.registerOperator = value
           this.lastValue = value
-          return
+        } else {
+          // Do the calculation
+          this.displayValue = this.calculate(this.registerOperator, this.registerValue, this.displayValue).toString()
+          this.registerValue = parseFloat(this.displayValue)
+          this.registerOperator = value
+          this.lastValue = value
         }
-        this.displayValue = this.calculate(this.registerOperator, this.registerValue, this.displayValue).toString()
-        this.registerValue = parseFloat(this.displayValue)
-        this.registerOperator = value
-        this.lastValue = value
       } else {
+        // A number or decimal separator was pressed
         if (this.isOperator(this.lastValue)) {
           // Clear the display if an operator was just pressed prior to this value
           this.displayValue = value
