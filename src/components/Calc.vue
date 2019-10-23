@@ -32,11 +32,10 @@ export default {
        ['1', '2', '3', '*'],
        ['C', '0', '.', '/']],
       displayValue: '0',
+      lastValue: '',
       operators: ['+', '-', '*', '/', 'C'],
-      register: '',
       registerOperator: '+',
-      registerValue: 0,
-      newValue: true
+      registerValue: 0
     }
   },
   components: {
@@ -50,36 +49,51 @@ export default {
     isOperator(item) {
       return this.operators.includes(item)
     },
-    nextValue(value) {
-      var isOperator = !!this.operators.find(function (operator) { return operator === value } )
-
-      if (value === 'C') {
-        this.displayValue = '0'
-        this.registerValue = 0
-        this.registerOperator = '+'
+    calculate(registerOperator, registerValue, displayValue) {
+      displayValue = parseFloat(displayValue)
+      if (registerOperator === '+') {
+        displayValue = registerValue + displayValue
+      } else if (registerOperator === '-') {
+        displayValue = registerValue - displayValue
+      } else if (registerOperator === '*') {
+        displayValue = registerValue * displayValue
+      } else if (registerOperator === '/') {
+        displayValue = registerValue / displayValue
       }
-
-      if (isOperator) {
-        if (this.registerOperator === '+') {
-          this.displayValue = (this.registerValue + parseFloat(this.displayValue)).toString()
-        } else if (this.registerOperator === '-') {
-          this.displayValue = (this.registerValue - parseFloat(this.displayValue)).toString()
-        } else if (this.registerOperator === '*') {
-          this.displayValue = (this.registerValue * parseFloat(this.displayValue)).toString()
-        } else if (this.registerOperator === '/') {
-          this.displayValue = (this.registerValue / parseFloat(this.displayValue)).toString()
+      return displayValue
+    },
+    resetCalculator() {
+      this.displayValue = '0'
+      this.registerValue = 0
+      this.lastValue = this.registerOperator = '+'
+    },
+    nextValue(value) {
+      if (value === 'C') {
+        // Clear/reset the display
+        this.resetCalculator()
+      } else if (this.isOperator(value)) {
+        // An operator was pressed
+        if (this.isOperator(this.lastValue)) {
+          // Change the operator because multiple operators were pressed in a row
+          this.registerOperator = value
+          this.lastValue = value
+        } else {
+          // Do the calculation
+          this.displayValue = this.calculate(this.registerOperator, this.registerValue, this.displayValue).toString()
+          this.registerValue = parseFloat(this.displayValue)
+          this.registerOperator = value
+          this.lastValue = value
         }
-        this.registerValue = parseFloat(this.displayValue)
-        this.registerOperator = value
-        this.newValue = true
       } else {
-        if (this.newValue) {
+        // A number or decimal separator was pressed
+        if (this.isOperator(this.lastValue)) {
           // Clear the display if an operator was just pressed prior to this value
-          this.newValue = false
           this.displayValue = value
+          this.lastValue = value
         } else {
           // Numbers are pushed directly into the register & display
           this.displayValue += value
+          this.lastValue = value
         }
       }
     }
