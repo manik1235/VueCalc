@@ -70,6 +70,7 @@ export default {
         this.registerValue = 0
         this.registerOperator = '+'
         this.lastValue = ''
+        return
       }
 
       if (this.isOperator(value)) {
