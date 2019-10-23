@@ -36,8 +36,7 @@ export default {
       operators: ['+', '-', '*', '/', 'C'],
       register: '',
       registerOperator: '+',
-      registerValue: 0,
-      newValue: true
+      registerValue: 0
     }
   },
   components: {
@@ -62,30 +61,36 @@ export default {
       } else if (registerOperator === '/') {
         displayValue = registerValue / displayValue
       }
-      return displayValue.toString()
+      return displayValue
     },
     nextValue(value) {
       if (value === 'C') {
         this.displayValue = '0'
         this.registerValue = 0
         this.registerOperator = '+'
-        this.lastValue = ''
+        this.lastValue = this.registerOperator
         return
       }
 
       if (this.isOperator(value)) {
-        this.displayValue = this.calculate(this.registerOperator, this.registerValue, this.displayValue)
+        if (this.isOperator(this.lastValue)) {
+          this.registerOperator = value
+          this.lastValue = value
+          return
+        }
+        this.displayValue = this.calculate(this.registerOperator, this.registerValue, this.displayValue).toString()
         this.registerValue = parseFloat(this.displayValue)
         this.registerOperator = value
-        this.newValue = true
+        this.lastValue = value
       } else {
-        if (this.newValue) {
+        if (this.isOperator(this.lastValue)) {
           // Clear the display if an operator was just pressed prior to this value
-          this.newValue = false
           this.displayValue = value
+          this.lastValue = value
         } else {
           // Numbers are pushed directly into the register & display
           this.displayValue += value
+          this.lastValue = value
         }
       }
     }
