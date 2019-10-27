@@ -1,21 +1,23 @@
 <template>
 <div class="calculator">
-  <table class="display-pad">
-    <tr>
-      <td colspan=4>
-        <Display :displayValue="displayValue" />
-      </td>
-    </tr>
-    <tr v-for="row in calculatorArray" :key="row.id">
-      <td v-for="item in row" :key="item.id">
-        <CalcButton
-          @nextValue="nextValue"
-          :value="item"
-          :isDepressed="isDepressed(item)"
-          :isOperatorProp="isOperator(item)"/>
-      </td>
-    </tr>
-  </table>
+  <div class="calculator-body">
+    <table class="display-pad">
+      <tr>
+        <td colspan=4>
+          <Display :displayValue="displayValue" />
+        </td>
+      </tr>
+      <tr v-for="row in calculatorArray" :key="row.id">
+        <td v-for="item in row" :key="item.id">
+          <CalcButton
+            @nextValue="nextValue"
+            :value="item"
+            :isDepressed="isDepressed(item)"
+            :isOperatorProp="isOperator(item)"/>
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>
 </template>
 
@@ -102,13 +104,15 @@ export default {
 </script>
 
 <style>
-.calculator {
+.calculator-body {
+  background-color: #C0C0C033;
   border: 3px solid silver;
   border-radius: 15px;
+  box-shadow: 4px 8px;
   margin-left: auto;
   margin-right: auto;
   max-width: 300px;
-  padding: 30px 30px;
+  padding: 30px 10px;
   width: 50%;
 }
 

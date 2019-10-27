@@ -18,6 +18,7 @@ export default {
 <style>
 .display-module {
   border: 2px solid black;
+  font-family: monaco, Consolas, Lucida Console, monospace;
   padding-left: 3px;
   padding-right: 3px;
 }
